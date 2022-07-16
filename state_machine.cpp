@@ -3,7 +3,7 @@
 // DOCUMENT:	Electrical Thermostat
 // DESCRIPTION: This module implements state machine
 
-#include "warning.h"
+#include "functions.h"
 #include "state_machine.h"
 
 // The state function array holds a function pointer to the function which gets called for each state. 
@@ -12,7 +12,7 @@
 typedef struct 
 {
     const char* name;
-    void (*func)(FILE* fptr);
+    void (*func)(void);
 } STATE_FUNCTION_ROW_STRUCT;
 
 // Maps a state to its state transition function, which should be called when the state transitions into this state.
@@ -23,8 +23,8 @@ typedef struct
 static STATE_FUNCTION_ROW_STRUCT state_function[] = 
 {
     // State name           // State function
-    { "STATE_WARNING_ON",   &Warning_On },
-    { "STATE_WARNING_OFF",  &Warning_Off }
+    { "STATE_WARNING_ON",   &Warning_On_Op },
+    { "STATE_WARNING_OFF",  &Warning_Off_Op }
 };
 
 // This following code defines a row in the state transition matrix (the state transition matrix is just an array of this structure). 
@@ -50,8 +50,13 @@ static STATE_TRANSITION_MATRIX_ROW_STRUCT state_transition_matrix[] =
 // Purpose: This function initializes state machine
 void Init(STATE_MACHINE_STRUCT* state_machine) 
 {
-    // printf("Init warnings state machine.\r\n");
-    state_machine->curr_state = STATE_WARNING_OFF;
+    state_machine->curr_state = STATE_WARNING_ON;
+}
+
+// Purpose: This function retrieves state name
+const char* GetStateName(STATE_ENUM state)
+{
+    return state_function[state].name;
 }
 
 // Purpose: This function retrieves current state
@@ -60,11 +65,12 @@ STATE_ENUM GetCurrentState(STATE_MACHINE_STRUCT* state_machine)
     return state_machine->curr_state;
 }
 
-// Purpose: This function retrieves state name
-const char* GetStateName(STATE_ENUM state)
+// Purpose: This function sets current state
+void SetCurrentState(STATE_MACHINE_STRUCT* state_machine, STATE_ENUM state)
 {
-    return state_function[state].name;
+    state_machine->curr_state = state;
 }
+
 
 // Purpose: This function governs transition between states.
 // All of the logic is controlled by the state transition matrix above. 
@@ -77,7 +83,7 @@ const char* GetStateName(STATE_ENUM state)
 // The event would typically come as a result of some other operation or trigger. 
 // However, the EVENT_NONE can be passed if no event has occurred, which is useful 
 // if Transition() is invoked every loop cycle, but events are generated less frequently.
-void Transition(STATE_MACHINE_STRUCT *state_machine, EVENT_ENUM event, FILE* fptr)
+void Transition(STATE_MACHINE_STRUCT *state_machine, EVENT_ENUM event)
 {
     // Iterate through the state transition matrix, checking if there is both a match with the current state and the event
     for (int i = 0; i < sizeof(state_transition_matrix) / sizeof(state_transition_matrix[0]); i++) 
@@ -90,7 +96,7 @@ void Transition(STATE_MACHINE_STRUCT *state_machine, EVENT_ENUM event, FILE* fpt
                 state_machine->curr_state =  state_transition_matrix[i].next_state;
 
                 // Call the function associated with transition
-                (state_function[state_machine->curr_state].func)(fptr);
+                (state_function[state_machine->curr_state].func)();
                 break;
             }
         }

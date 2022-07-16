@@ -5,8 +5,6 @@
 
 #include "functions.h"
 
-#define PRINTF_MODE
-
 // Purpose: This function retrieves current system time in milliseconds resolution
 uint64_t GetSystemTime()
 {
@@ -58,7 +56,7 @@ void InsertPulse(struct Node** head_ptr, struct Node* new_node_ptr)
     if (new_node_ptr != NULL)
     {
         // Special case for the head
-        if ((*head_ptr == NULL) || ((*head_ptr)->pulse.temp >= new_node_ptr->pulse.temp))
+        if ((*head_ptr == NULL) || ((*head_ptr)->pulse.width >= new_node_ptr->pulse.width))
         {
             new_node_ptr->next = *head_ptr;
             *head_ptr = new_node_ptr;
@@ -68,7 +66,7 @@ void InsertPulse(struct Node** head_ptr, struct Node* new_node_ptr)
             // Locate the node before the place of insertion
             struct Node* curr_ptr = *head_ptr;
 
-            while ((curr_ptr->next != NULL) && (curr_ptr->next->pulse.temp < new_node_ptr->pulse.temp))
+            while ((curr_ptr->next != NULL) && (curr_ptr->next->pulse.width < new_node_ptr->pulse.width))
             {
                 curr_ptr = curr_ptr->next;
             }
@@ -83,7 +81,7 @@ void InsertPulse(struct Node** head_ptr, struct Node* new_node_ptr)
 // Nodes with stale data have their timestamp values smaller by at least 1000 milliseconds 
 // than that of the new node to be inserted
 // Params: A pointer to the head of a list and a new node with the youngest timestamp
-void DeleteStalePulses(struct Node* head_ptr, Pulse pulse, FILE* fptr)
+void DeleteStalePulses(struct Node* head_ptr, uint64_t timestamp, FILE* fptr)
 {
     if (head_ptr == NULL)
         return;
@@ -91,27 +89,24 @@ void DeleteStalePulses(struct Node* head_ptr, Pulse pulse, FILE* fptr)
     PrintStr("Stale: ", fptr);
 
     // Until the head data is equal to the key move the head pointer
-    while ((head_ptr != NULL) && ((head_ptr->pulse.timestamp + ONE_SEC) < pulse.timestamp))
+    while ((head_ptr != NULL) && ((head_ptr->pulse.timestamp + ONE_SEC) < timestamp))
     {
         head_ptr = head_ptr->next;
     }
 
-    // struct Node* curr_ptr = head_ptr;
-    struct Node* curr_ptr = head_ptr, *prev_ptr = head_ptr;  
+    struct Node* curr_ptr = head_ptr, *prev_ptr = head_ptr;
 
     // while (curr_ptr != NULL && curr_ptr->next != NULL)
     while (curr_ptr != NULL)  
     {
-        if ((curr_ptr->pulse.timestamp + ONE_SEC) < pulse.timestamp)
+        if ((curr_ptr->pulse.timestamp + ONE_SEC) < timestamp)
         {
-            // curr_ptr->next = curr_ptr->next->next;
             prev_ptr->next = curr_ptr->next;
             
-            PrintInt(curr_ptr->pulse.temp, fptr);
+            PrintTemp(curr_ptr->pulse.temp, fptr); 
         }
         else
         {
-            // curr_ptr = curr_ptr->next;
             prev_ptr = curr_ptr;       
         }
 
@@ -120,6 +115,53 @@ void DeleteStalePulses(struct Node* head_ptr, Pulse pulse, FILE* fptr)
     }
 
     PrintStr("\n", fptr);
+}
+
+// Purpose: This function traverses a list and deletes nodes with stale data, if any are found
+// Nodes with stale data have their timestamp values smaller by at least 1000 milliseconds 
+// than that of the new node to be inserted
+// Params: A pointer to the head of a list and a new node with the youngest timestamp
+void DeleteStalePulse(struct Node** head_ptr, uint64_t timestamp, FILE* fptr)
+{
+    struct Node* curr_ptr = *head_ptr, *prev_ptr = *head_ptr;
+
+    // If head node itself holds the value to be deleted
+    if ((curr_ptr != NULL) && ((curr_ptr->pulse.timestamp + ONE_SEC) < timestamp))
+    {
+        *head_ptr = curr_ptr->next;
+
+        PrintTemp(curr_ptr->pulse.temp, fptr);
+        free(curr_ptr);
+        curr_ptr = NULL;
+        curr_ptr = *head_ptr;
+    }
+
+    // Delete occurrences other than head
+    while (curr_ptr != NULL)
+    {
+        // Search for the node to be deleted, keep track of the previous node as we need to change 'prev->next'
+        while ((curr_ptr != NULL) && ((curr_ptr->pulse.timestamp + ONE_SEC) >= timestamp))
+        {
+            prev_ptr = curr_ptr;
+            curr_ptr = curr_ptr->next;
+        }
+
+        // Check to see whether a node has not been found in the list
+        if (curr_ptr != NULL)
+        {
+            // Unlink the node from linked list
+            prev_ptr->next = curr_ptr->next;
+
+            PrintTemp(curr_ptr->pulse.temp, fptr);
+            free(curr_ptr);
+            curr_ptr = NULL;
+            curr_ptr = prev_ptr->next;  // Update curr for next iteration of outer loop
+        }
+        else
+        {
+            return;
+        }
+    }
 }
 
 // Purpose: This function prints contents of a list starting from the given node
@@ -131,7 +173,7 @@ void PrintList(struct Node* node_ptr, FILE* fptr)
 
     while (node_ptr != NULL)
     {
-        PrintInt(node_ptr->pulse.temp, fptr);
+        PrintTemp(node_ptr->pulse.temp, fptr);
         node_ptr = node_ptr->next;
     }
 
@@ -163,11 +205,11 @@ double FindMedian(Node* head_ptr)
         // Hence, simply return the middle element
         if (fast_ptr != NULL)
         {
-            median = slow_ptr->pulse.temp;
+            median = slow_ptr->pulse.width;
         }
         else // The linked list contains even number of nodes
         {
-            median = double(slow_ptr->pulse.temp + slow_ptr_prev->pulse.temp) / 2.0;
+            median = double(slow_ptr->pulse.width + slow_ptr_prev->pulse.width) / 2.0;
         }
     }
 
@@ -177,24 +219,21 @@ double FindMedian(Node* head_ptr)
 // Purpose: This function simulates generation of electrical pulse signal width by a 
 // temperature measuring sensor that is converted to a corresponding temperature value
 // Input: Valid signal range boundaries (positive integers)
-// Output: Electrical pulse temperature (milliseconds) and a timestamp
-Pulse GeneratePulse(unsigned short lower, unsigned short upper)
+// Output: Electrical pulse width (milliseconds)
+unsigned short GeneratePulseWidth(unsigned short lower, unsigned short upper)
 {
-    unsigned short width = (rand() % (upper - lower + 1)) + lower;
-    unsigned short temperature = ConvertPulseWidthToTemperature(width);
-
-    return { false, width, temperature, 0 };
+    return (rand() % (upper - lower + 1)) + lower;
 }
 
-// Purpose: This function converts an electrical pulse width to a corresponding temperature value
+// Purpose: This function converts an electrical pulse width to its corresponding temperature value
 // Input: Electrical pulse width (milliseconds)
 // Output: Temperature value (degrees Celsius)
-unsigned short ConvertPulseWidthToTemperature(unsigned short pulse_width)
+double ConvertPulseWidthToTemp(double pulse_width)
 {
     const unsigned short offset = 5;
     const double scale_factor = 1.3333;
 
-    return (unsigned short)(pulse_width - offset) * scale_factor;
+    return (pulse_width - offset) * scale_factor;
 }
 
 // Purpose: This function converts a temperature value to an electrical pulse width
@@ -215,6 +254,33 @@ bool IsTimeout(uint64_t current_time, uint64_t start_time, uint64_t limit_time)
     return ((current_time - start_time) >= limit_time);
 }
 
+// The state functions are the functions which are called when the current state and event matches a pair in the state transition matrix. 
+// While the rest of the state machine controls the high-level flow, the state functions are the guts of the state machine and 
+// are the functions which actually do something.
+// These state functions below are only stubs that do not do anything. Real life state functions do real life things.
+void Warning_On_Op(void) { }
+void Warning_Off_Op(void) { }
+
+void Warning_On(FILE* fptr)
+{
+#ifdef PRINTF_MODE
+    printf("\tWarning On\n");
+
+    if (fptr != NULL)
+        fprintf(fptr, "\tWarning On\n");
+#endif
+}
+
+void Warning_Off(FILE* fptr)
+{
+#ifdef PRINTF_MODE
+    printf("\tWarning Off\n");
+
+    if (fptr != NULL)
+        fprintf(fptr, "\tWarning Off\n");
+#endif
+}
+
 void PrintInt(int val, FILE* fptr)
 {
 #ifdef PRINTF_MODE
@@ -224,7 +290,7 @@ void PrintInt(int val, FILE* fptr)
 #endif  
 }
 
-void PrintFloat(double val, FILE* fptr)
+void PrintTemp(double val, FILE* fptr)
 {
 #ifdef PRINTF_MODE
     printf(" %4.1f", val);
@@ -239,16 +305,6 @@ void PrintStr(const char* str, FILE* fptr)
     printf(str);
     if (fptr != NULL)
         fprintf(fptr, str);
-
-#endif  
-}
-
-void PrintStrInt(const char* str, int val, FILE* fptr)
-{
-#ifdef PRINTF_MODE
-    printf(str, val);
-    if (fptr != NULL)
-        fprintf(fptr, str, val);
 
 #endif  
 }
