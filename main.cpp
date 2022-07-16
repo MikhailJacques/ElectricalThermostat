@@ -31,7 +31,7 @@ CRITICAL_SECTION warning_cs;
 DWORD WINAPI GeneratePulses(LPVOID ptr);
 DWORD WINAPI GenerateWarnings(LPVOID ptr);
 
-// Events to command threads to exit 
+// Events to command threads to exit
 HANDLE pulses_event_handle = CreateEvent(nullptr, true, false, nullptr);
 HANDLE warnings_event_handle = CreateEvent(nullptr, true, false, nullptr);
 
@@ -53,8 +53,8 @@ int main(void)
     FILE* fptr = NULL;                          // File pointer
     struct Node* head_ptr = NULL;               // Start with an empty list
     char* log_file_name = (char*)malloc(sizeof(char) * 30);
-
-    int temp = abs(10 - 5);
+    Pulse new_pulse = { false, 0, 0.0, 0 };
+    
 
     // Create log file with a unique timestamp
     if (log_file_name != NULL)
@@ -86,15 +86,20 @@ int main(void)
         while (GetSystemTime() < (start_time + measurement_duration_limit))
         {
             EnterCriticalSection(&pulse_cs);
+            new_pulse = pulse;
+            pulse.valid = false;
+            LeaveCriticalSection(&pulse_cs);
 
             // Check to see whether a new pulse has arrived
-            if (pulse.valid == true)
+            if (new_pulse.valid == true)
             {
+                new_pulse.valid = false;
+
                 EnterCriticalSection(&print_cs);
-                DeleteStalePulses(head_ptr, pulse.timestamp, fptr);
+                DeleteStalePulses(head_ptr, new_pulse.timestamp, fptr);
                 LeaveCriticalSection(&print_cs);
 
-                InsertPulse(&head_ptr, MakeNode(pulse));
+                InsertPulse(&head_ptr, MakeNode(new_pulse));
 
                 EnterCriticalSection(&print_cs);
                 PrintList(head_ptr, fptr);
@@ -133,12 +138,8 @@ int main(void)
                 EnterCriticalSection(&warning_cs);
                 warnings_on_flag = ((warning_alert_flag == true) 
                     && (IsTimeout(current_time, warning_alert_timestamp, warning_threshold))) ? true : false;
-                LeaveCriticalSection(&warning_cs);
-
-                pulse.valid = false;
+                LeaveCriticalSection(&warning_cs); 
             }
-
-            LeaveCriticalSection(&pulse_cs);
 
             Sleep(polling_time_interval);
         }
