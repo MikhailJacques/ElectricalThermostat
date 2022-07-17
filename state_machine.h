@@ -27,6 +27,4 @@ typedef struct
 
 void Init(STATE_MACHINE_STRUCT* state_machine);
 const char* GetStateName(STATE_ENUM state);
-STATE_ENUM GetCurrentState(STATE_MACHINE_STRUCT* state_machine);
-void SetCurrentState(STATE_MACHINE_STRUCT* state_machine, STATE_ENUM state);
-void Transition(STATE_MACHINE_STRUCT* state_machine, EVENT_ENUM event);
+void Transition(STATE_MACHINE_STRUCT* state_machine, FILE* fptr);

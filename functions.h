@@ -40,17 +40,13 @@ void InsertPulse(struct Node** head_ptr, struct Node* new_node_ptr);
 void DeleteStalePulses(struct Node* head_ptr, uint64_t timestamp, FILE* fptr);
 void DeleteStalePulse(struct Node** head_ptr, uint64_t timestamp, FILE* fptr);
 void PrintList(struct Node* node_ptr, FILE* fptr);
-double FindMedian(Node* head_ptr);
 unsigned short GeneratePulseWidth(unsigned short lower, unsigned short upper);
-double ConvertPulseWidthToTemp(double pulse_width);
 unsigned short ConvertTemperatureToPulseWidth(unsigned short temp_val);
 bool IsTimeout(uint64_t current_time, uint64_t start_time, uint64_t limit_time);
-
+double ConvertPulseWidthToTemp(double pulse_width);
+double FindMedian(Node* head_ptr);
 void PrintInt(int val, FILE* fptr);
 void PrintTemp(double val, FILE* fptr);
 void PrintStr(const char* str, FILE* fptr);
-
 void Warning_On(FILE* fptr);
 void Warning_Off(FILE* fptr);
-void Warning_On_Op(void);
-void Warning_Off_Op(void);

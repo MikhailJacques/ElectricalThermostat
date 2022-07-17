@@ -235,31 +235,14 @@ DWORD WINAPI GenerateWarnings(LPVOID ptr)
         // Check exit event 
         if (WaitForSingleObject(warnings_event_handle, 0) == WAIT_OBJECT_0)
             return 0;
-
+        
         EnterCriticalSection(&warning_cs);
 
         if (warnings_on_flag == true)
         {
-            switch (GetCurrentState(&state_machine))
-            {
-                case STATE_WARNING_ON:
-
-                    EnterCriticalSection(&print_cs);
-                    Warning_On(fptr);
-                    LeaveCriticalSection(&print_cs);
-
-                    Transition(&state_machine, EVENT_WARNING_OFF);
-                    break;
-
-                case STATE_WARNING_OFF:
-
-                    EnterCriticalSection(&print_cs);
-                    Warning_Off(fptr);
-                    LeaveCriticalSection(&print_cs);
-
-                    Transition(&state_machine, EVENT_WARNING_ON);
-                    break;
-            }
+            EnterCriticalSection(&print_cs);
+            Transition(&state_machine, fptr);
+            LeaveCriticalSection(&print_cs);
         }
         else
         {

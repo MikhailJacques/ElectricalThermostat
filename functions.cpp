@@ -258,9 +258,6 @@ bool IsTimeout(uint64_t current_time, uint64_t start_time, uint64_t limit_time)
 // While the rest of the state machine controls the high-level flow, the state functions are the guts of the state machine and 
 // are the functions which actually do something.
 // These state functions below are only stubs that do not do anything. Real life state functions do real life things.
-void Warning_On_Op(void) { }
-void Warning_Off_Op(void) { }
-
 void Warning_On(FILE* fptr)
 {
 #ifdef PRINTF_MODE

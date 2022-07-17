@@ -1,6 +1,6 @@
 New:    88.0
 List:   88.0
-Median: 88.0 - Alert duration 95
+Median: 88.0 - Alert duration 92
 New:    40.0
 Stale: 
 List:   40.0 88.0
@@ -16,7 +16,7 @@ Median: 60.7
 New:    92.0
 Stale: 
 List:   40.0 46.7 74.7 88.0 92.0
-Median: 74.7 - Alert duration 112
+Median: 74.7 - Alert duration 123
 New:    54.7
 Stale: 
 List:   40.0 46.7 54.7 74.7 88.0 92.0
@@ -32,39 +32,39 @@ Median: 64.7
 New:    78.7
 Stale: 
 List:   37.3 40.0 46.7 54.7 74.7 77.3 78.7 88.0 92.0
-Median: 74.7 - Alert duration 110
+Median: 74.7 - Alert duration 108
 New:    80.0
 Stale: 
 List:   37.3 40.0 46.7 54.7 74.7 77.3 78.7 80.0 88.0 92.0
-Median: 76.0 - Alert duration 231
+Median: 76.0 - Alert duration 219
 New:    92.0
 Stale: 
 List:   37.3 40.0 46.7 54.7 74.7 77.3 78.7 80.0 88.0 92.0 92.0
-Median: 77.3 - Alert duration 325
+Median: 77.3 - Alert duration 324
 New:    92.0
 Stale:  88.0
 List:   37.3 40.0 46.7 54.7 74.7 77.3 78.7 80.0 92.0 92.0 92.0
-Median: 77.3 - Alert duration 451
+Median: 77.3 - Alert duration 436
 New:    66.7
-Stale:  40.0
-List:   37.3 46.7 54.7 66.7 74.7 77.3 78.7 80.0 92.0 92.0 92.0
-Median: 77.3 - Alert duration 547
+Stale:  40.0 46.7
+List:   37.3 54.7 66.7 74.7 77.3 78.7 80.0 92.0 92.0 92.0
+Median: 78.0 - Alert duration 529
 New:    97.3
-Stale:  46.7 74.7
+Stale:  74.7
 List:   37.3 54.7 66.7 77.3 78.7 80.0 92.0 92.0 92.0 97.3
-Median: 79.3 - Alert duration 671
+Median: 79.3 - Alert duration 667
 New:    54.7
 Stale: 
 List:   37.3 54.7 54.7 66.7 77.3 78.7 80.0 92.0 92.0 92.0 97.3
-Median: 78.7 - Alert duration 732
+Median: 78.7 - Alert duration 746
 New:    76.0
-Stale:  92.0
-List:   37.3 54.7 54.7 66.7 76.0 77.3 78.7 80.0 92.0 92.0 97.3
-Median: 77.3 - Alert duration 825
+Stale:  54.7 92.0
+List:   37.3 54.7 66.7 76.0 77.3 78.7 80.0 92.0 92.0 97.3
+Median: 78.0 - Alert duration 840
 New:    82.7
-Stale:  54.7
+Stale: 
 List:   37.3 54.7 66.7 76.0 77.3 78.7 80.0 82.7 92.0 92.0 97.3
-Median: 78.7 - Alert duration 948
+Median: 78.7 - Alert duration 964
 New:    44.0
 Stale:  77.3
 List:   37.3 44.0 54.7 66.7 76.0 78.7 80.0 82.7 92.0 92.0 97.3
@@ -74,36 +74,37 @@ Median: 78.7 - Alert duration 1027
 	Warning On
 	Warning Off
 	Warning On
-New:    77.3
 	Warning Off
+New:    77.3
+	Warning On
 Stale:  78.7
 List:   37.3 44.0 54.7 66.7 76.0 77.3 80.0 82.7 92.0 92.0 97.3
-Median: 77.3 - Alert duration 1120
-	Warning On
+Median: 77.3 - Alert duration 1134
 	Warning Off
 	Warning On
 	Warning Off
 	Warning On
 	Warning Off
+	Warning On
 New:    73.3
-	Warning On
-Stale: 
-List:   37.3 44.0 54.7 66.7 73.3 76.0 77.3 80.0 82.7 92.0 92.0 97.3
-Median: 76.7 - Alert duration 1228
 	Warning Off
-	Warning On
-	Warning Off
-	Warning On
-New:    41.3
 Stale:  80.0
+List:   37.3 44.0 54.7 66.7 73.3 76.0 77.3 82.7 92.0 92.0 97.3
+Median: 76.0 - Alert duration 1241
+	Warning On
+	Warning Off
+	Warning On
+	Warning Off
+Stale: 
 List:   37.3 41.3 44.0 54.7 66.7 73.3 76.0 77.3 82.7 92.0 92.0 97.3
-Median: 74.7 - Alert duration 1292
-	Warning Off
+Median: 74.7 - Alert duration 1306
+New:    41.3
 	Warning On
 	Warning Off
 	Warning On
 	Warning Off
 	Warning On
+	Warning Off
 New:    57.3
 Stale:  92.0
 List:   37.3 41.3 44.0 54.7 57.3 66.7 73.3 76.0 77.3 82.7 92.0 97.3
@@ -117,61 +118,61 @@ Stale:  66.7
 List:   33.3 37.3 41.3 44.0 54.7 57.3 68.0 73.3 76.0 77.3 82.7 97.3
 Median: 62.7
 New:    82.7
-Stale:  37.3
-List:   33.3 41.3 44.0 54.7 57.3 68.0 73.3 76.0 77.3 82.7 82.7 97.3
-Median: 70.7
+Stale:  37.3 97.3
+List:   33.3 41.3 44.0 54.7 57.3 68.0 73.3 76.0 77.3 82.7 82.7
+Median: 68.0
 New:    86.7
-Stale:  54.7 97.3
+Stale:  54.7
 List:   33.3 41.3 44.0 57.3 68.0 73.3 76.0 77.3 82.7 82.7 86.7
-Median: 73.3 - Alert duration 93
+Median: 73.3 - Alert duration 110
 New:    73.3
 Stale:  76.0
 List:   33.3 41.3 44.0 57.3 68.0 73.3 73.3 77.3 82.7 82.7 86.7
-Median: 73.3 - Alert duration 187
+Median: 73.3 - Alert duration 189
 New:    100.0
 Stale:  82.7
 List:   33.3 41.3 44.0 57.3 68.0 73.3 73.3 77.3 82.7 86.7 100.0
-Median: 73.3 - Alert duration 327
+Median: 73.3 - Alert duration 312
 New:    76.0
 Stale:  44.0
 List:   33.3 41.3 57.3 68.0 73.3 73.3 76.0 77.3 82.7 86.7 100.0
-Median: 73.3 - Alert duration 405
+Median: 73.3 - Alert duration 407
 New:    40.0
 Stale:  77.3
 List:   33.3 40.0 41.3 57.3 68.0 73.3 73.3 76.0 82.7 86.7 100.0
-Median: 73.3 - Alert duration 499
+Median: 73.3 - Alert duration 487
 New:    88.0
 Stale:  73.3
 List:   33.3 40.0 41.3 57.3 68.0 73.3 76.0 82.7 86.7 88.0 100.0
-Median: 73.3 - Alert duration 592
+Median: 73.3 - Alert duration 609
 New:    33.3
 Stale:  41.3
 List:   33.3 33.3 40.0 57.3 68.0 73.3 76.0 82.7 86.7 88.0 100.0
-Median: 73.3 - Alert duration 668
+Median: 73.3 - Alert duration 656
 New:    76.0
 Stale:  57.3
 List:   33.3 33.3 40.0 68.0 73.3 76.0 76.0 82.7 86.7 88.0 100.0
-Median: 76.0 - Alert duration 762
+Median: 76.0 - Alert duration 764
 New:    49.3
 Stale:  68.0
 List:   33.3 33.3 40.0 49.3 73.3 76.0 76.0 82.7 86.7 88.0 100.0
-Median: 76.0 - Alert duration 839
+Median: 76.0 - Alert duration 840
 New:    77.3
 Stale:  33.3
 List:   33.3 40.0 49.3 73.3 76.0 76.0 77.3 82.7 86.7 88.0 100.0
-Median: 76.0 - Alert duration 948
+Median: 76.0 - Alert duration 935
 New:    62.7
 Stale:  82.7
 List:   33.3 40.0 49.3 62.7 73.3 76.0 76.0 77.3 86.7 88.0 100.0
-Median: 76.0 - Alert duration 1057
+Median: 76.0 - Alert duration 1043
 	Warning On
 	Warning Off
 	Warning On
-	Warning Off
 New:    52.0
 Stale:  86.7
 List:   33.3 40.0 49.3 52.0 62.7 73.3 76.0 76.0 77.3 88.0 100.0
-Median: 73.3 - Alert duration 1118
+Median: 73.3 - Alert duration 1106
+	Warning Off
 	Warning On
 	Warning Off
 	Warning On
@@ -179,14 +180,15 @@ Median: 73.3 - Alert duration 1118
 	Warning On
 	Warning Off
 New:    78.7
+	Warning On
 Stale:  73.3
 List:   33.3 40.0 49.3 52.0 62.7 76.0 76.0 77.3 78.7 88.0 100.0
-Median: 76.0 - Alert duration 1226
-	Warning On
+Median: 76.0 - Alert duration 1216
 	Warning Off
 	Warning On
 	Warning Off
 	Warning On
+	Warning Off
 New:    34.7
 Stale: 
 List:   33.3 34.7 40.0 49.3 52.0 62.7 76.0 76.0 77.3 78.7 88.0 100.0
@@ -216,11 +218,11 @@ Stale:  49.3 76.0
 List:   33.3 34.7 44.0 52.0 62.7 69.3 77.3 78.7 85.3 88.0 93.3
 Median: 69.3
 New:    64.0
-Stale: 
-List:   33.3 34.7 44.0 52.0 62.7 64.0 69.3 77.3 78.7 85.3 88.0 93.3
-Median: 66.7
+Stale:  77.3
+List:   33.3 34.7 44.0 52.0 62.7 64.0 69.3 78.7 85.3 88.0 93.3
+Median: 64.0
 New:    93.3
-Stale:  62.7 77.3
+Stale:  62.7
 List:   33.3 34.7 44.0 52.0 64.0 69.3 78.7 85.3 88.0 93.3 93.3
 Median: 69.3
 New:    46.7
@@ -234,11 +236,11 @@ Median: 69.3
 New:    78.7
 Stale: 
 List:   33.3 34.7 44.0 46.7 64.0 69.3 78.7 85.3 88.0 93.3 93.3 100.0
-Median: 74.0 - Alert duration 109
+Median: 74.0 - Alert duration 108
 New:    96.0
 Stale:  88.0
 List:   33.3 34.7 44.0 46.7 64.0 69.3 78.7 85.3 93.3 93.3 96.0 100.0
-Median: 74.0 - Alert duration 234
+Median: 74.0 - Alert duration 218
 New:    36.0
 Stale: 
 List:   33.3 34.7 36.0 44.0 46.7 64.0 69.3 78.7 85.3 93.3 93.3 96.0 100.0
@@ -328,11 +330,11 @@ Stale:  66.7
 List:   33.3 38.7 40.0 41.3 44.0 50.7 54.7 56.0 68.0 72.0 77.3 82.7 85.3
 Median: 54.7
 New:    97.3
-Stale:  68.0
-List:   33.3 38.7 40.0 41.3 44.0 50.7 54.7 56.0 72.0 77.3 82.7 85.3 97.3
-Median: 54.7
+Stale:  40.0 68.0
+List:   33.3 38.7 41.3 44.0 50.7 54.7 56.0 72.0 77.3 82.7 85.3 97.3
+Median: 55.3
 New:    90.7
-Stale:  40.0 41.3
+Stale:  41.3
 List:   33.3 38.7 44.0 50.7 54.7 56.0 72.0 77.3 82.7 85.3 90.7 97.3
 Median: 64.0
 New:    100.0
@@ -344,27 +346,27 @@ Stale:  54.7
 List:   33.3 38.7 44.0 49.3 50.7 56.0 72.0 82.7 85.3 90.7 97.3 100.0
 Median: 64.0
 New:    89.3
-Stale:  50.7
-List:   33.3 38.7 44.0 49.3 56.0 72.0 82.7 85.3 89.3 90.7 97.3 100.0
-Median: 77.3 - Alert duration 109
+Stale:  50.7 56.0
+List:   33.3 38.7 44.0 49.3 72.0 82.7 85.3 89.3 90.7 97.3 100.0
+Median: 82.7 - Alert duration 96
 New:    53.3
-Stale:  56.0
+Stale: 
 List:   33.3 38.7 44.0 49.3 53.3 72.0 82.7 85.3 89.3 90.7 97.3 100.0
-Median: 77.3 - Alert duration 186
+Median: 77.3 - Alert duration 189
 New:    72.0
 Stale:  82.7
 List:   33.3 38.7 44.0 49.3 53.3 72.0 72.0 85.3 89.3 90.7 97.3 100.0
-Median: 72.0 - Alert duration 280
+Median: 72.0 - Alert duration 266
 New:    93.3
 Stale: 
 List:   33.3 38.7 44.0 49.3 53.3 72.0 72.0 85.3 89.3 90.7 93.3 97.3 100.0
-Median: 72.0 - Alert duration 373
+Median: 72.0 - Alert duration 375
 New:    68.0
-Stale: 
-List:   33.3 38.7 44.0 49.3 53.3 68.0 72.0 72.0 85.3 89.3 90.7 93.3 97.3 100.0
-Median: 72.0 - Alert duration 483
-New:    49.3
 Stale:  85.3
+List:   33.3 38.7 44.0 49.3 53.3 68.0 72.0 72.0 89.3 90.7 93.3 97.3 100.0
+Median: 72.0 - Alert duration 469
+New:    49.3
+Stale: 
 List:   33.3 38.7 44.0 49.3 49.3 53.3 68.0 72.0 72.0 89.3 90.7 93.3 97.3 100.0
 Median: 70.0
 New:    50.7
@@ -464,7 +466,3 @@ Stale:  54.7
 List:   33.3 34.7 36.0 37.3 40.0 45.3 56.0 69.3 73.3 81.3 85.3 89.3 98.7
 Median: 56.0
 New:    48.0
-Stale: 
-List:   33.3 34.7 36.0 37.3 40.0 45.3 48.0 56.0 69.3 73.3 81.3 85.3 89.3 98.7
-Median: 52.0
-New:    36.0
