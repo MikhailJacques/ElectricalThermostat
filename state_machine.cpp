@@ -28,7 +28,7 @@ static STATE_FUNCTION_ROW_STRUCT state_function[] =
 };
 
 // This following code defines a row in the state transition matrix (the state transition matrix is just an array of this structure). 
-// This structure contains the current state, an event, and the state to transition to.
+// This structure contains the current state and the state to transition to.
 typedef struct 
 {
     STATE_ENUM curr_state;
@@ -36,8 +36,8 @@ typedef struct
 } STATE_TRANSITION_MATRIX_ROW_STRUCT;
 
 // The state transition matrix is the heart of this state machine methodology. 
-// It specifies what the next state should be, given the current state and the event that just occurred. 
-// It is built as an array of the curr_state/event/next_state structure defined above.
+// Given the current state it specifies what the next state should be
+// It is built as an array of the curr_state/next_state structure defined above.
 static STATE_TRANSITION_MATRIX_ROW_STRUCT state_transition_matrix[] = 
 {
     // Current state     Next state
@@ -60,15 +60,10 @@ const char* GetStateName(STATE_ENUM state)
 
 // Purpose: This function governs transition between states.
 // All of the logic is controlled by the state transition matrix above. 
-// Essentially, the function gets passed in an event, e.g. the current event, 
-// and then runs through the state transition matrix row by row to find a 
-// pre-defined state and event pair that match the current state and event. 
-// If found then it transitions to the specified next state and then calls 
+// Essentially, the function runs through the state transition matrix 
+// row by row to find a pre-defined state that matches the current state. 
+// When found then it transitions to the specified next state and then calls 
 // the state function pointed to by the function pointer.
-
-// The event would typically come as a result of some other operation or trigger. 
-// However, the EVENT_NONE can be passed if no event has occurred, which is useful 
-// if Transition() is invoked every loop cycle, but events are generated less frequently.
 void Transition(STATE_MACHINE_STRUCT *state_machine, FILE* fptr)
 {
     // Iterate through the state transition matrix, checking if there is both a match with the current state and the event

@@ -10,12 +10,6 @@ typedef enum {
     STATE_WARNING_OFF
 } STATE_ENUM;
 
-typedef enum {
-    EVENT_ANY,
-    EVENT_WARNING_ON,
-    EVENT_WARNING_OFF
-} EVENT_ENUM;
-
 // This simple state machine needs to remember only one thing, the current state. 
 // All the state machine’s variables are declared in the STATE_MACHINE_STRUCT.
 // A pointer to this struct gets passed in as the first variable to all the state machine functions, 
