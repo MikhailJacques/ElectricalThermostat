@@ -81,133 +81,46 @@ void InsertPulse(struct Node** head_ptr, struct Node* new_node_ptr)
 // Nodes with stale data have their timestamp values smaller by at least 1000 milliseconds 
 // than that of the new node to be inserted
 // Params: A pointer to the head of a list and a new node with the youngest timestamp
-void DeleteStalePulses(struct Node* head_ptr, uint64_t timestamp, FILE* fptr)
+// Returns: The updated head of the list
+struct Node* DeleteStalePulses(struct Node* head_ptr, uint64_t timestamp, FILE* fptr)
 {
     if (head_ptr == NULL)
-        return;
+        return NULL;
 
     PrintStr("Stale: ", fptr);
 
     // Until the head data is equal to the key move the head pointer
     while ((head_ptr != NULL) && ((head_ptr->pulse.timestamp + ONE_SEC) < timestamp))
     {
+        struct Node* tmp = head_ptr;
         head_ptr = head_ptr->next;
+        free(tmp);
     }
 
-    struct Node* curr_ptr = head_ptr, *prev_ptr = head_ptr;
+    struct Node* curr_ptr = head_ptr, * prev_ptr = head_ptr;
 
-    while (curr_ptr != NULL)  
+    while (curr_ptr != NULL)
     {
         if ((curr_ptr->pulse.timestamp + ONE_SEC) < timestamp)
         {
             prev_ptr->next = curr_ptr->next;
-            
-            PrintTemp(curr_ptr->pulse.temp, fptr); 
+
+            PrintTemp(curr_ptr->pulse.temp, fptr);
+
+            struct Node* tmp = curr_ptr;
+            curr_ptr = curr_ptr->next;
+            free(tmp);
         }
         else
-        {
-            prev_ptr = curr_ptr;       
-        }
-
-        // Can you see an issue in this block of code?
-        curr_ptr = curr_ptr->next;
-    }
-
-    PrintStr("\n", fptr);
-}
-
-// Purpose: This function traverses a list and deletes nodes with stale data, if any are found
-// Nodes with stale data have their timestamp values smaller by at least 1000 milliseconds 
-// than that of the new node to be inserted
-// Params: A pointer to the head of a list and a new node with the youngest timestamp
-void DeleteStalePulses2(struct Node* head_ptr, uint64_t timestamp, FILE* fptr)
-{
-    PrintStr("Stale: ", fptr);
-
-    if (head_ptr == NULL)
-        return;
-
-    // Until the head data is equal to the key move the head pointer
-    while ((head_ptr != NULL) && ((head_ptr->pulse.timestamp + ONE_SEC) < timestamp))
-    {
-        head_ptr = head_ptr->next;
-    }
-
-    if (head_ptr == NULL)
-        return;
-
-    struct Node* curr_ptr = head_ptr;
-
-    while (curr_ptr != NULL && curr_ptr->next != NULL)
-    {
-        // If current node timestamp is greater than old timestamp, then delete node
-        if ((curr_ptr->pulse.timestamp + ONE_SEC) < timestamp)
-        {
-            struct Node* temp_ptr = curr_ptr->next;
-            curr_ptr->next = temp_ptr->next;
-
-            PrintTemp(temp_ptr->pulse.temp, fptr);
-
-            free(temp_ptr);
-        }
-        else 
-        {
-            curr_ptr = curr_ptr->next;
-        }
-    }
-
-    PrintStr("\n", fptr);
-}
-
-// Purpose: This function traverses a list and deletes nodes with stale data, if any are found
-// Nodes with stale data have their timestamp values smaller by at least 1000 milliseconds 
-// than that of the new node to be inserted
-// Params: A pointer to the head of a list and a new node with the youngest timestamp
-void DeleteStalePulses3(struct Node** head_ptr, uint64_t timestamp, FILE* fptr)
-{
-    struct Node* curr_ptr = *head_ptr, * prev_ptr = *head_ptr;
-
-    PrintStr("Stale: ", fptr);
-
-    // If head node itself holds the value to be deleted
-    if ((curr_ptr != NULL) && ((curr_ptr->pulse.timestamp + ONE_SEC) < timestamp))
-    {
-        *head_ptr = curr_ptr->next;
-
-        PrintTemp(curr_ptr->pulse.temp, fptr);
-        free(curr_ptr);
-        curr_ptr = NULL;
-        curr_ptr = *head_ptr;
-    }
-
-    // Delete occurrences other than head
-    while (curr_ptr != NULL)
-    {
-        // Search for the node to be deleted, keep track of the previous node as we need to change 'prev->next'
-        while ((curr_ptr != NULL) && ((curr_ptr->pulse.timestamp + ONE_SEC) >= timestamp))
         {
             prev_ptr = curr_ptr;
             curr_ptr = curr_ptr->next;
         }
-
-        // Check to see whether a node has not been found in the list
-        if (curr_ptr != NULL)
-        {
-            // Unlink the node from linked list
-            prev_ptr->next = curr_ptr->next;
-
-            PrintTemp(curr_ptr->pulse.temp, fptr);
-            free(curr_ptr);
-            curr_ptr = NULL;
-            curr_ptr = prev_ptr->next;  // Update curr for next iteration of outer loop
-        }
-        else
-        {
-            return;
-        }
     }
 
     PrintStr("\n", fptr);
+
+    return head_ptr;
 }
 
 // Purpose: This function prints contents of a list starting from the given node
@@ -227,6 +140,7 @@ void PrintList(struct Node* node_ptr, FILE* fptr)
 
 #endif
 }
+
 
 // Purpose: This function finds a median value in a list
 // Params: A pointer to the head of a list

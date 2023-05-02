@@ -96,7 +96,7 @@ int main(void)
                 new_pulse.valid = false;
 
                 EnterCriticalSection(&print_cs);
-                DeleteStalePulses(head_ptr, new_pulse.timestamp, fptr);
+                head_ptr = DeleteStalePulses(head_ptr, new_pulse.timestamp, fptr);
                 LeaveCriticalSection(&print_cs);
 
                 InsertPulse(&head_ptr, MakeNode(new_pulse));
